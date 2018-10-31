@@ -21,8 +21,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 
 # Install extensions from source
 COPY ./extensions /tmp/extensions
-RUN chmod +x /tmp/extensions/install.sh \
-    && /tmp/extensions/install.sh \
+RUN chmod +x /tmp/extensions/ins-apcu.sh \
+    && /tmp/extensions/ins-apcu.sh \
     && rm -rf /tmp/extensions
 
 # More extensions
@@ -30,7 +30,8 @@ RUN chmod +x /tmp/extensions/install.sh \
 # 2. xml, xmlrpc, wddx require libxml2-dev and libxslt-dev.
 # 3. Line `&& :\` do nothing just for better reading.
 RUN if echo "$PHP_VERSION" | egrep -vq "5.4"; then mt="-j$(nproc)"; fi; \
-    apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
+    docker-php-ext-enable opcache \
+    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install $mt gd \
     && :\
