@@ -6,6 +6,8 @@ ARG REDIS_VERSION=4.1.1
 ARG SUPPORT_MCRYPT
 ARG BUILT_IN_OPCACHE
 
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+
 COPY ./sources.list/$SOURCE_LIST /etc/apt/sources.list.tmp
 RUN cc=$(curl 'https://ifconfig.co/country'); if [ "$cc" = "China" ]; then \
     mv /etc/apt/sources.list.tmp /etc/apt/sources.list; fi
@@ -31,8 +33,8 @@ RUN chmod +x /tmp/extensions/ins-apcu.sh \
 # 3. Line `&& :\` do nothing just for better reading.
 RUN if echo "$PHP_VERSION" | egrep -vq "5.4"; then mt="-j$(nproc)"; fi; \
     docker-php-ext-enable opcache \
-    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-webp-dir=/usr/include/ \
     && docker-php-ext-install $mt gd \
     && :\
     && apt-get install -y libicu-dev \

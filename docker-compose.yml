@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 services:
   php72:
     build:
@@ -9,9 +9,11 @@ services:
         SUPPORT_MCRYPT: "false"
         BUILT_IN_OPCACHE: "true"
     ports:
-      - "9000:9000"
+      - "127.0.0.1:9000:9000"
+    extra_hosts:
+      - "fend.javfree.me:139.162.107.149"
     volumes:
-      - /usr/share/nginx/html/:/usr/share/nginx/html/:rw
+      - /home/wwwroot/:/home/wwwroot/:rw
       - ./conf/php.ini:/usr/local/etc/php/php.ini:ro
       - ./conf/php-fpm.conf:/usr/local/etc/php-fpm.d/www.conf:rw
       - ./log/:/var/log/dnmp/:rw
