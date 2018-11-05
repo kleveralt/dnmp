@@ -22,6 +22,7 @@ services:
       - SYS_PTRACE
     networks:
       - net-php72
+      - net-redis
 
   redis:
     image: redislabs/redisearch:latest
