@@ -23,5 +23,14 @@ services:
     networks:
       - net-php72
 
+  redis:
+    image: redislabs/redisearch:latest
+    restart: always
+    networks:
+      - net-redis
+    ports:
+      - "127.0.0.1:6379:6379"
+
 networks:
   net-php72:
+  net-redis:

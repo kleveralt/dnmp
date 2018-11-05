@@ -63,8 +63,8 @@ RUN if echo "$PHP_VERSION" | egrep -vq "5.4"; then mt="-j$(nproc)"; fi; \
     && docker-php-ext-install $mt shmop \
     && docker-php-ext-install $mt sysvmsg \
     && docker-php-ext-install $mt sysvsem \
-    && docker-php-ext-install $mt sysvshm
-    #&& docker-php-ext-install $mt opcache
+    && docker-php-ext-install $mt sysvshm \
+    #&& docker-php-ext-install $mt opcache \
     #&& docker-php-ext-install $mt pdo_firebird \
     #&& docker-php-ext-install $mt pdo_dblib \
     #&& docker-php-ext-install $mt pdo_oci \
@@ -122,3 +122,4 @@ RUN if echo "$PHP_VERSION" | egrep -vq "5.4"; then mt="-j$(nproc)"; fi; \
     #&& apt-get install -y libmemcached-dev zlib1g-dev \
     #&& pecl install memcached-2.2.0 \
     #&& docker-php-ext-enable memcached
+    && apt-get clean
